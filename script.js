@@ -1,7 +1,8 @@
 let searchButton = document.getElementById('search-button');
 let searchField = document.getElementById('search-name');
-let searchName;
-let objectID;
+let searchName; // name we'll be searching for
+let objectID; // artwork we'll be displaying
+let numMatches; // number of objects matching searchName
 
 window.addEventListener('load', () => {
     console.log('Page is loaded');
@@ -118,10 +119,12 @@ async function searchArtworks(hasImages, title, artistOrCulture, tags) {
     return fetch(url).then(res => res.json())
         .then(data => {
             console.log(data);
+            numMatches = data.objectIDs.length;
+            console.log(numMatches + ' matches found for ' + searchName);
             // if array length > 1, return random object ID from array
             if (data.objectIDs.length > 1) {
 
-                removeDuds(data.objectIDs); // this works but it's way too slow.
+                // removeDuds(data.objectIDs); // this works but it's way too slow.
 
                 let randomIndex = Math.floor(Math.random() * data.objectIDs.length);
                 return data.objectIDs[randomIndex];
@@ -154,8 +157,26 @@ async function getObjectInfo(objectID) {
 
             // If data.message is undefined, run displayOldMatchMessage
             if (data.message = 'Not a valid object' && !data.artistDisplayName && !data.artistDisplayBio && !data.title && !data.objectDate && !data.medium && !data.objectURL) {
-                displayOldMatchMessage();
-                return;
+
+                if (numMatches > 1) {
+                    getObjectID(searchName)
+                        .then((id) => {
+                            console.log(id);
+                            if (id) {
+                                getObjectInfo(id);
+                            } else {
+                                console.log('No matching objects found.');
+                                displayNoMatchMessage(searchName);
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                        });
+                }
+                else {
+                    displayOldMatchMessage();
+                    return;
+                }
             }
 
             // Create a new Div for the metadata
@@ -342,7 +363,7 @@ function loading() {
     // create loading div
     let loading = document.createElement('p');
     loading.setAttribute('class', 'loading');
-    loading.innerHTML = 'Searching for ' + searchName + '...';
+    loading.innerHTML = numMatches + 'matches found for ' + searchName + '...';
 
     // append loading div to overlay
     overlay.appendChild(loading);
