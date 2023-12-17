@@ -158,25 +158,25 @@ async function getObjectInfo(objectID) {
             // If data.message is undefined, run displayOldMatchMessage
             if (data.message = 'Not a valid object' && !data.artistDisplayName && !data.artistDisplayBio && !data.title && !data.objectDate && !data.medium && !data.objectURL) {
 
-                if (numMatches > 1) {
-                    getObjectID(searchName)
-                        .then((id) => {
-                            console.log(id);
-                            if (id) {
-                                getObjectInfo(id);
-                            } else {
-                                console.log('No matching objects found.');
-                                displayNoMatchMessage(searchName);
-                            }
-                        })
-                        .catch((error) => {
-                            console.error('Error:', error);
-                        });
-                }
-                else {
-                    displayOldMatchMessage();
-                    return;
-                }
+                // if (numMatches > 1) {
+                //     getObjectID(searchName)
+                //         .then((id) => {
+                //             console.log(id);
+                //             if (id) {
+                //                 getObjectInfo(id);
+                //             } else {
+                //                 console.log('No matching objects found.');
+                //                 displayNoMatchMessage(searchName);
+                //             }
+                //         })
+                //         .catch((error) => {
+                //             console.error('Error:', error);
+                //         });
+                // }
+                // else {
+                displayOldMatchMessage();
+                return;
+                // }
             }
 
             // Create a new Div for the metadata
