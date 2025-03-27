@@ -195,6 +195,12 @@ button:focus {
     text-decoration: none;
 }
 
+.btn-outline:hover,
+.btn-outline:focus {
+    background-color: #bfd0fc20;
+    color: #bfd0fc;
+}
+
 /* Animating Buttons from Artist Info */
 .artwork-info .btn-outline {
     animation-name: fadeIn;
